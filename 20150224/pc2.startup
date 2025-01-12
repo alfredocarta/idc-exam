@@ -1,0 +1,5 @@
+ifconfig eth0 20.0.0.2/24 up
+ifconfig eth0 add 2000:20::2/64
+
+route add default gw 20.0.0.1
+route -A inet6 add default gw 2000:20::1

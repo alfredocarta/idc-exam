@@ -1,0 +1,21 @@
+! AS4 is a customer of AS1, a peer of AS20
+! AS4 forbids any transit traffic between AS1 and AS20
+    neighbor 4.20.0.20 filter-list announcementsForAS20 out
+    ip as-path access-list announcementsForAS20 deny ^1_
+    ip as-path access-list announcementsForAS20 permit .*
+
+    neighbor 1.4.0.1 filter-list announcementsForAS1 out
+    ip as-path access-list announcementsForAS1 deny ^20_
+    ip as-path access-list announcementsForAS1 permit .*
+
+! AS10 is a customer of AS1 and AS2 
+! AS10 forbids all transit traffic
+    neighbor 2.10.0.2 prefix-list mineOnly out
+    neighbor 1.10.0.1 prefix-list mineOnly out
+    ip prefix-list mineOnly deny any
+
+! AS20 is a customer of AS100 and a peer of AS4
+! AS20 forbids all transit traffic
+    neighbor 4.20.0.4 prefix-list mineOnly out
+    neighbor 100.20.0.100 prefix-list mineOnly out 
+    ip prefix-list mineOnly deny any 

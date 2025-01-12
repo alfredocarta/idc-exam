@@ -1,0 +1,14 @@
+echo 1 >/proc/sys/net/ipv6/conf/all/forwarding
+
+ifconfig eth0 up
+ifconfig eth0 add 2000:10::1/64
+ifconfig eth1 2.10.0.10/24 up
+ifconfig eth2 1.10.0.10/24 up
+
+ip tunnel add tun0 mode sit remote 100.20.0.20 local 1.10.0.10 ttl 10
+ifconfig tun0 up
+ifconfig tun0 add 3000::1
+route -A inet6 add default dev tun0
+
+/etc/init.d/zebra start
+/etc/init.d/bind start
