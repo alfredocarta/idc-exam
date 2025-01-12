@@ -1,0 +1,12 @@
+! as20r1 prefers received announcements that carry a community value 1:1
+    neighbor 10.20.0.1 route-map checkCommunity in 
+    route-map checkCommunity permit 10
+    match community goodCommunity
+    set local-preference 150
+    route-map checkCommunity permit 20
+    ip community-list standard goodCommunity permit 1:1
+
+! as1r1 applies a community 1:1 to announcements sent to AS10
+    neighbor 1.10.0.2 route-map applyCommunity out 
+    route-map applyCommunity permit 10
+    set community 1:1

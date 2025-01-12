@@ -1,0 +1,8 @@
+ifconfig eth0 2.2.0.1/24 up
+ifconfig eth1 2.1.0.2/24 up
+
+ip tunnel add tun mode ipip remote 1.20.0.1 local 2.1.0.2 ttl 255
+ip link set tun up
+ip address add 30.0.0.2 peer 30.0.0.1 dev tun
+
+/etc/init.d/zebra start
