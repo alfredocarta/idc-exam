@@ -1,10 +1,10 @@
 ! AS50 is a customer of AS100 and AS200
 ! AS50  forbids transit traffic
-    neighbor 150.50.100.1 prefix-list mineOnly out 
-    neighbor 150.50.200.1 prefix-list mineOnly out 
-    ip prefix-list mineOnly permit 50.0.0.0/16
-    ip prefix-list mineOnly permit 150.50.100.0/30
-    ip prefix-list mineOnly permit 150.50.200.0/30
+neighbor 150.50.100.1 prefix-list mineOnly out 
+neighbor 150.50.200.1 prefix-list mineOnly out 
+ip prefix-list mineOnly permit 50.0.0.0/16
+ip prefix-list mineOnly permit 150.50.100.0/30
+ip prefix-list mineOnly permit 150.50.200.0/30
 
 ! AS2 is a customer of AS100 and AS30
 ! AS2 forbids transit traffic
