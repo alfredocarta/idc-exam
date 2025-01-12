@@ -1,0 +1,5 @@
+ifconfig eth0 100.200.0.2/30 up
+ifconfig eth1 10.200.0.2/30 up
+
+/etc/init.d/zebra start
+/etc/init.d/bind start

@@ -1,3 +1,8 @@
+! AS2 prefers using link R for outgoing traffic
+    neighbor 2.30.0.1 route-map preferredLink in
+    route-map preferredLink permit 10 
+    set local-preference 200
+
 ! AS20 prefers using link G
     neighbor 4.20.0.4 route-map preferredNeighbor in
     route-map preferredNeighbor permit 10

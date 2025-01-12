@@ -1,12 +1,18 @@
-! AS4 is a customer of AS1, a peer of AS20
-! AS4 forbids any transit traffic between AS1 and AS20
-    neighbor 4.20.0.20 filter-list announcementsForAS20 out
-    ip as-path access-list announcementsForAS20 deny ^1_
-    ip as-path access-list announcementsForAS20 permit .*
+! AS2 is a customer of AS100 and AS30
+! AS2 forbids transit traffic
+    neighbor 2.100.0.2 prefix-list mineOnly out
+    neighbor 2.30.0.1 prefix-list mineOnly out
+    prefix-list mineOnly permit 2.0.0.0/24
+    prefix-list mineOnly permit 2.100.0.0/30
+    prefix-list mineOnly permit 2.30.0.0/30
 
-    neighbor 1.4.0.1 filter-list announcementsForAS1 out
-    ip as-path access-list announcementsForAS1 deny ^20_
-    ip as-path access-list announcementsForAS1 permit .*
+! AS20 is a customer of AS1 and AS100
+! AS20 forbids transit traffic
+    neighbor 1.20.0.2 prefix-list mineOnly out
+    neighbor 20.100.0.1 prefix-list mineOnly out 
+    ip prefix-list mineOnly permit 8.8.8.0/24
+    ip prefix-list customerRoutes permit 1.20.0.0/30
+    ip prefix-list customerRoutes permit 20.100.0.0/30
 
 ! AS10 is a customer of AS1 and AS2 
 ! AS10 forbids all transit traffic
@@ -19,3 +25,13 @@
     neighbor 4.20.0.4 prefix-list mineOnly out
     neighbor 100.20.0.100 prefix-list mineOnly out 
     ip prefix-list mineOnly deny any 
+
+! AS4 is a customer of AS1, a peer of AS20
+! AS4 forbids any transit traffic between AS1 and AS20
+    neighbor 4.20.0.20 filter-list announcementsForAS20 out
+    ip as-path access-list announcementsForAS20 deny ^1_
+    ip as-path access-list announcementsForAS20 permit .*
+
+    neighbor 1.4.0.1 filter-list announcementsForAS1 out
+    ip as-path access-list announcementsForAS1 deny ^20_
+    ip as-path access-list announcementsForAS1 permit .*
