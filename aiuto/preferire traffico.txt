@@ -1,3 +1,15 @@
+! as10r1 prefers announcements received from AS1 
+! instead of those sent by AS20
+    neighbor 10.1.0.2 route-map higherPreference in 
+    route-map higherPreference permit 10
+    set local-preference 150
+
+! AS2 prefers announcements received from link D
+! instead of those received from link E.
+    neighbor 2.20.0.1 route-map higherPreference in
+    route-map higherPreference permit 10
+    set local-preference 150
+
 ! AS200 prefers using link R for outgoing traffic
     neighbor 150.20.200.2 route-map preferredLink in 
     route-map preferredLink permit 10

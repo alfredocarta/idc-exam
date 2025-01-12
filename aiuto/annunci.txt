@@ -1,0 +1,6 @@
+! AS2 announces to AS20 its own routes in such a way that 
+! AS20 prefers announcements received from link E
+! instead of those received from link D
+    neighbor 2.20.0.1 route-map applyMED out
+    route-map applyMED permit 10
+    set metric 20
