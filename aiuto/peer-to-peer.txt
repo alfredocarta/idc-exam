@@ -1,0 +1,6 @@
+! AS10 and AS20 have a peer-to-peer agreement
+neighbor 110.220.0.1 prefix-list customerOnly out 
+ip prefix-list customerOnly permit 100.10.0.0/16
+ip prefix-list customerOnly permit 50.100.10.0/24
+ip prefix-list customerOnly permit 100.100.0.0/16
+ip prefix-list customerOnly deny any
