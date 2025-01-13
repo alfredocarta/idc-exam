@@ -1,0 +1,23 @@
+! ASBOH is a customer of AS2
+neighbor 50.2.88.2 prefix-list allowOut out
+ip prefix-list allowOut permit 193.204.0.0/15
+
+! AS100 is a customer of AS10
+    neighbor 50.10.100.10 prefix-list allowOut out
+    ip prefix-list allowOut permit 100.100.0.0/16
+
+
+
+! AS200 is a customer of AS20, which is a customer of AS2
+ip prefix-list myCustomers permit 50.20.200.200/32
+ip prefix-list myPrefix permit 100.20.0.0/16
+access-list peeringLans permit 50.0.0.0/8
+
+neighbor 50.2.20.2 route-map allowToProvider out
+    route-map allowToProvider permit 10
+    match ip address prefix-list myPrefix
+    route-map allowToProvider permit 20
+    match ip next-hop prefix-list myCustomers
+    route-map allowToProvider permit 30
+    match ip address peeringLans
+

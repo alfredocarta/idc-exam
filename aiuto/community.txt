@@ -10,3 +10,26 @@
     neighbor 1.10.0.2 route-map applyCommunity out 
     route-map applyCommunity permit 10
     set community 1:1
+
+! AS3 does not announce to AS1 prefixes with community 3:1
+    neighbor 1.3.0.1 route-map rmap out
+    bgp community-list standard filterCommunity seq 5 permit 3:1
+    route-map rmap deny 10
+    match community filterCommunity
+    route-map rmap permit 2
+
+! AS4 announces prefix 4.4.1.0/24 with community 3:1 
+! and announces prefix 4.4.2.0/24 with community 3:2
+    neighbor 3.4.0.1 route-map communityOut out
+    ip prefix-list myPrefixList1 permit 4.4.1.0/24
+    ip prefix-list myPrefixList2 permit 4.4.2.0/24
+
+    route-map communityOut permit 10
+    match ip address prefix-list myPrefixList1
+    set community 3:1
+
+    route-map communityOut permit 20
+    match ip address prefix-list myPrefixList2
+    set community 3:2
+
+    route-map communityOut permit 30

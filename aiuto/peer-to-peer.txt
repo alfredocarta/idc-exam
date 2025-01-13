@@ -1,6 +1,24 @@
+! AS10 and AS200 have a peer-to-peer agreement
+    ip prefix-list myCustomers permit 50.20.200.200/32
+    ip prefix-list myPrefix permit 100.20.0.0/16
+    access-list peeringLans permit 50.0.0.0/8
+
+    neighbor 50.10.200.20 route-map allowToPeer out
+    route-map allowToPeer permit 10
+    match ip address prefix-list myPrefix
+    route-map allowToPeer permit 20
+    match ip next-hop prefix-list myCustomers
+    route-map allowToPeer permit 30
+    match ip address peeringLans
+
 ! AS10 and AS20 have a peer-to-peer agreement
 neighbor 110.220.0.1 prefix-list customerOnly out 
 ip prefix-list customerOnly permit 100.10.0.0/16
 ip prefix-list customerOnly permit 50.100.10.0/24
 ip prefix-list customerOnly permit 100.100.0.0/16
 ip prefix-list customerOnly deny any
+
+! AS10 and AS200 have a peer-to-peer agreement
+    neighbor 50.20.200.20 prefix-list allowOut out
+    neighbor 50.10.200.10 prefix-list allowOut out
+    ip prefix-list allowOut permit 100.200.0.0/16
